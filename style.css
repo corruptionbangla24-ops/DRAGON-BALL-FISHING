@@ -1,0 +1,286 @@
+/* 🎰 GLOBAL DRAGON BALL FISHING ARCADE MASTER RESPONSIVE CSS */
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+    user-select: none; 
+    -webkit-user-select: none; 
+}
+
+body { 
+    font-family: 'Segoe UI', Arial, sans-serif; 
+    background: #02040a; 
+    color: white; 
+    margin: 0; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: space-between; 
+    height: 100vh; 
+    height: 100dvh; 
+    overflow: hidden; 
+    padding-bottom: env(safe-area-inset-bottom); 
+}
+
+/* ক্যাসিনো হেডার প্যানেল এরিয়া */
+.header { 
+    width: 100%; 
+    padding: 6px 16px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    background: #080d1a; 
+    border-bottom: 2px solid #ffcc00; /* সায়ান গোল্ডেন নিয়ন বর্ডার লক ভাই ভাই */
+    box-sizing: border-box; 
+    z-index: 100; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.7); 
+    flex-shrink: 0; 
+}
+
+.brand .name { 
+    color: #ffaa00; 
+    font-weight: 900; 
+    font-size: 16px; 
+    letter-spacing: 0.5px; 
+    text-shadow: 0 0 10px rgba(255, 170, 0, 0.5);
+}
+
+.brand .game { 
+    color: #00ffcc; 
+    font-weight: bold; 
+    font-size: 10px; 
+}
+
+.header-right { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+}
+
+/* 🔈 সাউন্ড বোতাম স্টাইল ভাই ভাই */
+.sound-btn { 
+    background: #111625; 
+    border: 1px solid #1e2640; 
+    color: #fff; 
+    font-size: 14px; 
+    width: 32px; 
+    height: 34px; 
+    border-radius: 50%; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    transition: 0.2s; 
+}
+
+.sound-btn.muted-active { 
+    background: #7f1d1d; 
+    border-color: #ea2027; 
+}
+
+.balance-box { 
+    background: linear-gradient(145deg, #10ac84, #1dd1a1); 
+    padding: 4px 12px; 
+    border-radius: 30px; 
+    font-weight: bold; 
+    font-size: 14px; 
+    border: 1px solid #ffffff33; 
+}
+
+/* 🎰 ওরিজিনাল ড্রাগন বল ক্যানভাস স্পেসিং এরিয়া ভাই ভাই */
+.fishing-arcade-zone {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 96%;
+    max-width: 390px;
+    height: 48%; 
+    margin: auto 0;
+    flex-shrink: 1;
+}
+
+.ocean-canvas-frame {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #0c1020 0%, #03050c 100%); /* রিয়েল কসমিক আন্ডারওয়াটার থিম */
+    border-radius: 16px;
+    border: 3px solid #ffaa00; 
+    box-shadow: 0 0 20px rgba(255, 170, 0, 0.3), inset 0 0 30px #000;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 🐉 সাঁতার কাটতে থাকা মিথিকাল ড্রাগনদের ডাইনামিক লেয়ার ভাই ভাই */
+.swim-lane-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: auto;
+}
+
+/* 🔮 ড্রাগন স্প্রাইটগুলোর সাইজ এবং ওরিজিনাল স্পিড মুভমেন্ট অ্যানিমেশন লুপ */
+.fish-sprite {
+    position: absolute;
+    font-size: 38px;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+    will-change: transform;
+}
+
+/* ৫টি ডাইনামিক ড্রাগন বস স্ক্রিন মুভমেন্ট ওরিজিনাল ক্যাসিনো লুপ ট্র্যাক ভাই ভাই */
+.baby-dragon { top: 25%; left: 15%; animation: saiyanSwimHorizontal 10s infinite alternate ease-in-out; }
+.roshi { top: 65%; left: 45%; animation: saiyanSwimCircular 16s infinite linear; font-size: 42px; }
+.shenron-blue { top: 45%; left: 65%; animation: saiyanSwimHorizontal 14s infinite alternate-reverse ease-in-out; font-size: 46px; filter: drop-shadow(0 0 8px #00e6ff); }
+.golden-kraken { top: 15%; left: 35%; animation: saiyanSwimHorizontal 20s infinite alternate ease-in-out; font-size: 50px; }
+.saiyan-shark { top: 70%; left: 25%; animation: saiyanSwimCircular 22s infinite linear; font-size: 54px; filter: drop-shadow(0 0 10px #ff3333); }
+.supreme-shenron { top: 40%; left: 40%; animation: saiyanSwimHorizontal 28s infinite alternate ease-in-out; font-size: 60px; filter: drop-shadow(0 0 15px #f1c40f); }
+
+@keyframes saiyanSwimHorizontal {
+    0% { transform: translateX(-40px) scaleX(1); }
+    100% { transform: translateX(100px) scaleX(-1); }
+}
+
+@keyframes saiyanSwimCircular {
+    0% { transform: rotate(0deg) translate(35px) rotate(0deg); }
+    100% { transform: rotate(360deg) translate(35px) rotate(-360deg); }
+}
+
+/* 🔮 এনার্জি বল কামানের কাস্টম কিকব্যাক ফায়ার এнимиেশন নোড */
+.weapon-fire-kickback {
+    animation: saiyanCannonKick 0.12s 1 ease-out;
+}
+
+@keyframes saiyanCannonKick {
+    0% { transform: scale(1) translateY(0); }
+    50% { transform: scale(0.82) translateY(6px); filter: brightness(2); }
+    100% { transform: scale(1) translateY(0); }
+}
+
+/* 🏆 ইন-লাইন লাইভ স্কোরিং মেসেজ বার ভাই ভাই */
+.win-status-container { 
+    width: 92%; 
+    max-width: 360px; 
+    background: #080d1a; 
+    border: 1px solid #1e2640; 
+    padding: 8px; 
+    border-radius: 12px; 
+    text-align: center; 
+    font-weight: bold; 
+    font-size: 12px; 
+    color: #ffaa00; 
+    flex-shrink: 0; 
+    margin-bottom: 4px; 
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5); 
+}
+
+.win-glow-bar { 
+    background: #10ac84 !important; 
+    color: #fff !important; 
+    box-shadow: 0 0 15px #10ac84 !important; 
+    border-color: #fff; 
+}
+
+.lose-glow-bar { 
+    background: #962d2d !important; 
+    color: #fff !important; 
+    box-shadow: 0 0 15px #962d2d !important; 
+    border-color: #fff; 
+}
+
+/* 🎛️ কন্ট্রোল প্যানেল এরিয়া ভাই ভাই */
+.footer-controls { 
+    position: relative; 
+    bottom: 0; 
+    margin-bottom: 45px; 
+    width: 94%; 
+    max-width: 360px; 
+    background: #080d1a; 
+    padding: 8px 10px; 
+    border-radius: 25px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 6px; 
+    border: 1px solid #1e2640; 
+    box-shadow: 0 -5px 25px rgba(0,0,0,0.7); 
+    pointer-events: auto; 
+    flex-shrink: 0; 
+}
+
+.play-section { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    width: 100%; 
+    justify-content: space-between; 
+    padding: 0 4px; 
+    box-sizing: border-box; 
+}
+
+.bet-selector { 
+    display: flex; 
+    align-items: center; 
+    background: #02040a; 
+    padding: 4px 12px; 
+    border-radius: 20px; 
+    border: 2px solid #1e2640; 
+    flex: 1; 
+    justify-content: space-between; 
+}
+
+.bet-btn-nav { 
+    color: #ffaa00; 
+    border: none; 
+    background: none; 
+    font-size: 18px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    width: 25px; 
+    height: 25px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+/* ওরিজিনাল প্রিমিয়াম এনার্জি বল কামান ডিসপ্লে নোড */
+.cannon-display-avatar { 
+    font-size: 36px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 0 10px #ffaa00);
+    transition: 0.1s;
+}
+
+.icon-group { 
+    display: flex; 
+    gap: 8px; 
+}
+
+.icon-btn { 
+    background: #111625; 
+    border: none; 
+    color: #fff; 
+    width: 34px; 
+    height: 34px; 
+    border-radius: 50%; 
+    font-size: 13px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    cursor: pointer; 
+    border: 1px solid #1e2640;
+}
+
+.icon-btn.active { 
+    background: #7f1d1d; 
+    color: #ffaa00; 
+    box-shadow: 0 0 8px #ffaa00; 
+}
