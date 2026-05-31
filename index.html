@@ -44,7 +44,7 @@
         <span id="win-text-msg">Adjust energy ball cost and tap the mystical dragons to blast and harvest cash rewards!</span>
     </div>
 
-    <!-- 🎛️ ARTILLERY GUN CONTROLS FOOTER INTERFACE -->
+       <!-- 🎛️ ARTILLERY GUN CONTROLS FOOTER INTERFACE (মেইন বল বাটন ১ শতভাগ ফিক্সড সিঙ্কড বর্ম ভাই ভাই) -->
     <div class="footer-controls">
         <div class="play-section">
             <div class="bet-selector">
@@ -56,14 +56,18 @@
                 <button class="bet-btn-nav" onclick="adjustBulletPower('plus')">+</button>
             </div>
 
-            <div class="cannon-display-avatar" id="cannon-node">🔮</div>
+            <!-- 🔮 [অ্যাকশন বল বাটন ফিক্সড]: ওরিজিনাল 'handleDragonBlast' সুপ্রিম টার্গেটে সরাসরি টাইট লক ভাই ভাই -->
+            <button class="play-btn" id="spin-btn" onclick="handleDragonBlast('SUPREME_SHENRON')" style="background: none; border: none; padding: 0; cursor: pointer; outline: none;">
+                <div class="cannon-display-avatar" id="cannon-node" style="font-size: 38px; filter: drop-shadow(0 0 12px #ffaa00); transition: 0.1s;">🔮</div>
+            </button>
 
             <div class="icon-group">
                 <button class="icon-btn" id="auto-btn" onclick="toggleAutoLock()">🔄</button>
             </div>
         </div>
     </div>
-    <!-- 🔌 [উইনগো কালার ট্রেড সিঙ্ক - ইউনিভার্সাল সকেট ইঞ্জিন লাইব্রেরি ভাই] -->
+
+    <!-- 🔌 SOCKET GATEWAY COUPLING AND TRANSACTION ROUTER -->
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
@@ -247,3 +251,5 @@
     </script>
 </body>
 </html>
+ 
+                
