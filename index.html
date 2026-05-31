@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DRAGON BALL FISHING - ROYAL SUPER ARCADE</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 🎰 PREMIUM HEADER CONTROLLER PANEL -->
+    <div class="header">
+        <div class="brand">
+            <div class="name">DRAGON BALL FISHING</div>
+            <div class="game">SAIYAN ENERGY BLAST ENGINE</div>
+        </div>
+        <div class="header-right">
+            <button class="sound-btn" id="mute-btn" onclick="toggleMute()">🔊</button>
+            <div class="balance-box">৳ <span id="user-balance">0.00</span></div>
+        </div>
+    </div>
+
+    <!-- 🔮 REAL-TIME UNDERWATER ACQUISITION CANVAS GRID -->
+    <div class="fishing-arcade-zone">
+        <div class="ocean-canvas-frame" id="marine-viewport">
+            
+            <!-- Target Saiyan Aquatics Spawning Grid Array -->
+            <div class="swim-lane-layer">
+                <div class="fish-sprite baby-dragon" onclick="handleDragonBlast('BABY_DRAGON')">🐉</div>
+                <div class="fish-sprite roshi" onclick="handleDragonBlast('TURTLE_ROSHI')">🐢</div>
+                <div class="fish-sprite shenron-blue" onclick="handleDragonBlast('SHENRON_BLUE')">🐲</div>
+                <div class="fish-sprite golden-kraken" onclick="handleDragonBlast('GOLDEN_KRAKEN')">🐙</div>
+                <div class="fish-sprite saiyan-shark" onclick="handleDragonBlast('SAIYAN_SHARK')">🦈</div>
+                <div class="fish-sprite supreme-shenron" onclick="handleDragonBlast('SUPREME_SHENRON')">🔮</div>
+            </div>
+
+            <!-- Kinetic Weapon Flash Laser Layer -->
+            <div class="gunner-laser-tracker" id="laser-beam"></div>
+        </div>
+    </div>
+
+    <!-- 🏆 SCOREBOARD LIVE STATUS DISPLAY ENGINE -->
+    <div class="win-status-container" id="win-status-box">
+        <span id="win-text-msg">Adjust energy ball cost and tap the mystical dragons to blast and harvest cash rewards!</span>
+    </div>
+
+    <!-- 🎛️ ARTILLERY GUN CONTROLS FOOTER INTERFACE -->
+    <div class="footer-controls">
+        <div class="play-section">
+            <div class="bet-selector">
+                <button class="bet-btn-nav" onclick="adjustBulletPower('minus')">−</button>
+                <div style="text-align: center; width: 80px;">
+                    <div style="font-size: 9px; color: #aaa; font-weight: bold;">ENERGY COST</div>
+                    <div style="font-size: 15px; font-weight: 900; color: #fff;" id="bet-display">৳১০</div>
+                </div>
+                <button class="bet-btn-nav" onclick="adjustBulletPower('plus')">+</button>
+            </div>
+
+            <div class="cannon-display-avatar" id="cannon-node">🔮</div>
+
+            <div class="icon-group">
+                <button class="icon-btn" id="auto-btn" onclick="toggleAutoLock()">🔄</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔌 SOCKET GATEWAY COUPLING AND TRANSACTION ROUTER -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlUserId = urlParams.get('userId') || urlParams.get('id') || urlParams.get('username') || "guest_user";
+        const urlWallet = urlParams.get('wallet') || "main";
+        
+        const SERVER_URL = window.location.origin;
+
+        let balance = 0.00;
+        let currentBulletCost = 10; 
+        let isProcessingHit = false; 
+        let isAutoLocked = false;
+        let isMuted = false;
+
+        // 🧠 SECURE REAL-TIME TRANSACTION HARVEST ENGINE
+        async function handleDragonBlast(targetDragonType) {
+            if (isProcessingHit) return;
+            isProcessingHit = true;
+
+            triggerWeaponFiringAnimation();
+            playAudio('spin');
+
+            try {
+                // Step 1: Fire ammunition and deduct bullet cost transaction bundle
+                const shootResponse = await fetch(`${SERVER_URL}/api/dragonball-shoot`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: urlUserId,
+                        bulletCost: parseFloat(currentBulletCost),
+                        wallet: urlWallet
+                    })
+                });
+                const shootData = await shootResponse.json();
+
+                if (!shootData || shootData.success !== true) {
+                    alert(shootData.message || "❌ Blast Denied! Check BDT Account Balance.");
+                    isProcessingHit = false;
+                    return;
+                }
+
+                // Balance mapping fallback link updates
+                balance = parseFloat(shootData.balance);
+                document.getElementById("user-balance").innerText = balance.toFixed(2);
+                propagateWalletRefreshEvents();
+
+                // Step 2: Validate projectile convergence collision hit coordinates on backend
+                const hitResponse = await fetch(`${SERVER_URL}/api/dragonball-hit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: urlUserId,
+                        dragonType: targetDragonType,
+                        bulletCost: parseFloat(currentBulletCost),
+                        wallet: urlWallet
+                    })
+                });
+                const hitData = await hitResponse.json();
+
+                if (hitData && hitData.success === true) {
+                    if (hitData.captured === true) {
+                        // Target successfully harvested matrix execution loop
+                        playAudio('win');
+                        balance = parseFloat(hitData.balance);
+                        document.getElementById("user-balance").innerText = balance.toFixed(2);
+                        document.getElementById("win-status-box").className = "win-status-container win-glow-bar";
+                        document.getElementById("win-text-msg").innerText = `🏆 BLAST DESTROYED! Captured ${targetDragonType} at x${hitData.odds} odds. Added ৳${hitData.winAmount}!`;
+                    } else {
+                        // Deflection trace loop fallback
+                        playAudio('click');
+                        document.getElementById("win-status-box").className = "win-status-container lose-glow-bar";
+                        document.getElementById("win-text-msg").innerText = `💨 Deflected! Dragon armor absorbed energy blast. Try again.`;
+                    }
+                    propagateWalletRefreshEvents();
+                }
+            } catch (err) {
+                console.error("Dragon collision pipeline sync drop", err);
+            }
+            
+            isProcessingHit = false;
+        }
+
+        function triggerWeaponFiringAnimation() {
+            const cannon = document.getElementById("cannon-node");
+            cannon.className = "cannon-display-avatar weapon-fire-kickback";
+            setTimeout(() => cannon.className = "cannon-display-avatar", 120);
+        }
+
+        function propagateWalletRefreshEvents() {
+            if (window.parent) window.parent.postMessage({ action: "refresh_wallet" }, "*");
+            if (window.top) window.top.postMessage({ action: "refresh_wallet" }, "*");
+        }
+
+        // 🔌 BACKEND BALANCE REALTIME PUSH STREAM INTERCEPTOR
+        if (typeof io !== 'undefined') {
+            const socket = io();
+            socket.on("balanceUpdate", (data) => {
+                if (data && data.username === urlUserId) {
+                    fetchLiveBalance();
+                }
+            });
+        }
+
+        async function fetchLiveBalance() {
+            try {
+                const response = await fetch(`${SERVER_URL}/api/dragonball-balance?userId=${urlUserId}&wallet=${urlWallet}`);
+                const data = await response.json();
+                if (data && data.success) {
+                    balance = parseFloat(data.balance);
+                    document.getElementById("user-balance").innerText = balance.toFixed(2);
+                    propagateWalletRefreshEvents();
+                }
+            } catch (e) { console.error("Stateless balance interceptor exception bypassed"); }
+        }
+
+        window.onload = () => {
+            fetchLiveBalance();
+        };
+
+        // 🎛️ ARTILLERY CALIBER CONTROL BOARD CONFIGURATOR
+        function adjustBet(action) {
+            // Mapping adjustBet routing pattern link from your trigger panel buttons
+            adjustBulletPower(action);
+        }
+
+        function adjustBulletPower(action) {
+            if (isProcessingHit) return;
+            if (action === 'minus' && currentBulletCost > 1) {
+                if (currentBulletCost <= 10) currentBulletCost -= 1;
+                else if (currentBulletCost <= 100) currentBulletCost -= 10;
+                else currentBulletCost -= 100;
+            }
+            if (action === 'plus' && currentBulletCost < 5000) {
+                if (currentBulletCost < 10) currentBulletCost += 1;
+                else if (currentBulletCost < 100) currentBet += 10; // Fallback sync
+                else currentBulletCost += 100;
+            }
+            if (currentBulletCost < 1) currentBulletCost = 1;
+            if (currentBulletCost > 5000) currentBulletCost = 5000;
+            
+            document.getElementById("bet-display").innerText = `৳${currentBulletCost}`;
+            playAudio('click');
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            document.getElementById("mute-btn").innerText = isMuted ? "🔇" : "🔊";
+            Object.values(slotSounds).forEach(s => s.muted = isMuted);
+        }
+
+                function toggleAutoLock() {
+            isAutoLocked = !isAutoLocked;
+            document.getElementById("auto-btn").classList.toggle("active", isAutoLocked);
+            playAudio('click');
+        }
+
+        // 🎯 [৪টি ওরিজিনাল প্রফেশনাল স্লট সাউন্ড ও বাফার গেটওয়ে লক ভাই ভাই]
+        const slotSounds = {
+            click: new Audio('click2.mp3'),
+            spin: new Audio('spin2.mp3'), 
+            win: new Audio('win2.mp3'),
+            wheel: new Audio('wheel1.mp3')
+        };
+        Object.values(slotSounds).forEach(s => s.load());
+
+        function playAudio(type) { 
+            if (isMuted) return; 
+            try { 
+                slotSounds[type].currentTime = 0; 
+                slotSounds[type].play(); 
+            } catch(e){} 
+        }
+    </script>
+</body>
+</html>
